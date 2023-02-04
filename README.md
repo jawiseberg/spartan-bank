@@ -2,7 +2,7 @@
 
 ### Jake Wiseberg, Alex Vaslow, Sasha Wallace, Reece Buckner-Wolfson, Parker Griffin
 
-![image](logos/spartanbanklogo.jpg)
+![image](assets/logos/spartanbanklogo.jpg)
 
 *Abstract:*
 
