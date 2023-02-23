@@ -10,6 +10,10 @@ const HomeView = ({ navigation }) => {
                 onPress={() => navigation.navigate('Profile')}
             />
             <Button
+                title="Go to bank account"
+                onPress={() => navigation.navigate('Account')}
+            />
+            <Button
                 title="Go to login"
                 onPress={() => navigation.navigate('Login')}
             />

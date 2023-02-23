@@ -6,6 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginView from './views/login';
 import ProfileView from './views/profile';
 import HomeView from './views/home';
+import AccountView from './views/account';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -19,6 +21,7 @@ export default function App() {
           options={{ title: 'Welcome' }}
         />
         <Stack.Screen name="Profile" component={ProfileView} />
+        <Stack.Screen name="Account" component={AccountView} />
       </Stack.Navigator>
     </NavigationContainer>
   );
