@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 
 const LoginView = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -10,13 +11,13 @@ const LoginView = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Image
                 source={require('../assets/icon.png')}
                 style={styles.image}
             />
             <TextInput
-                style={styles.input}
+                style={{ width: '80%', marginBottom: 20 }}
                 placeholder="Username"
                 value={username}
                 onChangeText={setUsername}
