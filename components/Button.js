@@ -1,38 +1,33 @@
-import { StyleSheet, View, Pressable, Text } from 'react-native';
+import React, { memo } from 'react';
+import { StyleSheet } from 'react-native';
+import { Button as PaperButton } from 'react-native-paper';
+import { theme } from '../core/theme';
 
-export default function Button({ label }) {
-  return (
-    <View style={styles.buttonContainer}>
-      <Pressable style={styles.button} onPress={() => alert('You pressed a button.')}>
-        <Text style={styles.buttonLabel}>{label}</Text>
-      </Pressable>
-    </View>
-  );
-}
+const Button = ({ mode, style, children, ...props }) => (
+    <PaperButton
+        style={[
+            styles.button,
+            mode === 'outlined' && { backgroundColor: theme.colors.surface },
+            style,
+        ]}
+        labelStyle={styles.text}
+        mode={mode}
+        {...props}
+    >
+        {children}
+    </PaperButton>
+);
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    width: 320,
-    height: 68,
-    marginHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 3,
-  },
-  button: {
-    borderRadius: 10,
-    borderColor: "#000000",
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  buttonIcon: {
-    paddingRight: 8,
-  },
-  buttonLabel: {
-    color: '#000000',
-    fontSize: 16,
-  },
+    button: {
+        width: '100%',
+        marginVertical: 10,
+    },
+    text: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        lineHeight: 26,
+    },
 });
+
+export default memo(Button);
