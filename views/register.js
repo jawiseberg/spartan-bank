@@ -5,11 +5,12 @@ import TextInput from '../components/TextInput';
 import Header from '../components/Header'
 import { theme } from '../core/theme'
 
-const LoginView = ({ navigation }) => {
+const RegisterView = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         navigation.navigate('Home')
     }
 
@@ -20,11 +21,16 @@ const LoginView = ({ navigation }) => {
                 style={styles.image}
             />
             <Header>
-                Spartan Bank
+                Create Account
             </Header>
             <TextInput
-                placeholder="Username/Email"
+                placeholder="Username"
                 value={username}
+                onChangeText={setUsername}
+            />
+            <TextInput
+                placeholder="Email"
+                value={email}
                 onChangeText={setUsername}
             />
             <TextInput
@@ -33,23 +39,16 @@ const LoginView = ({ navigation }) => {
                 value={password}
                 onChangeText={setPassword}
             />
-            <View style={styles.forgotPassword}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('ForgotPassword')}
-                >
-                    <Text style={styles.label}>Forgot your password?</Text>
-                </TouchableOpacity>
-            </View>
             <Button
                 mode="contained"
-                onPress={handleLogin}
+                onPress={handleRegister}
             >
-                Login
+                Sign Up
             </Button>
             <View style={styles.row}>
-                <Text style={styles.label}>Don’t have an account? </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                    <Text style={styles.link}>Sign up</Text>
+                <Text style={styles.label}>Have an account? </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.link}>Sign In</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -69,11 +68,6 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
     },
-    forgotPassword: {
-        width: '100%',
-        alignItems: 'flex-end',
-        marginBottom: 24,
-    },
     row: {
         flexDirection: 'row',
         marginTop: 4,
@@ -87,4 +81,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginView;
+export default RegisterView;
