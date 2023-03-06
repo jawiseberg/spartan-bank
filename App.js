@@ -9,6 +9,8 @@ import HomeView from './views/home';
 import RegisterView from './views/register';
 import ForgotPasswordView from './views/forgot_password';
 import { theme } from './core/theme'
+import AccountView from './views/account';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -31,6 +33,7 @@ export default function App() {
           <Stack.Screen name="Profile" component={ProfileView} />
           <Stack.Screen name="Register" component={RegisterView} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordView} />
+          <Stack.Screen name="Account" component={AccountView} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
