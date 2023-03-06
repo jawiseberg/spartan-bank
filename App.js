@@ -12,6 +12,12 @@ import { theme } from './core/theme'
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [currentPage, setCurrentPage] = useState('TimeSheets');
+
+  const handlePageChange = (pageName) => {
+    setCurrentPage(pageName);
+  };
+
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
