@@ -1,32 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NativeBaseProvider, Box, Button } from "native-base";
+//import React, { useState } from 'react';
+//import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import LoginView from './views/login';
+import ProfileView from './views/profile';
+import HomeView from './views/home';
+import RegisterView from './views/register';
+import ForgotPasswordView from './views/forgot_password';
+import { theme } from './core/theme'
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  let balance = 0.00
+  const [currentPage, setCurrentPage] = useState('TimeSheets');
+
+  const handlePageChange = (pageName) => {
+    setCurrentPage(pageName);
+  };
+
   return (
-    <NativeBaseProvider>
-        <Box alignSelf="center" top="45%" rounded="lg" overflow="hidden" borderColor="coolGray.200" borderWidth="1" backgroundColor= "gray.150">
-          <Text style={styles.titleText}>Case Cash Balance</Text>
-          <Text style={styles.baseText}>${balance}</Text>
-            <Button variant="subtle" colorScheme="green" onPress={() => console.log("Adding Case Cash")}>
-              <Text style={styles.baseText}>
-                Add Case Cash
-              </Text>
-            </Button>
-        </Box>
-    </NativeBaseProvider>
+    <PaperProvider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login" screenOptions={navigationOptions}>
+          <Stack.Screen name="Login" component={LoginView} />
+          <Stack.Screen
+            name="Home"
+            component={HomeView}
+            options={{ title: 'Welcome' }}
+          />
+          <Stack.Screen name="Profile" component={ProfileView} />
+          <Stack.Screen name="Register" component={RegisterView} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordView} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  baseText: {
-    fontFamily: 'notoserif',
-    fontSize: 20,
-    textAlign: 'left',
-  },
-  titleText: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-});
+const navigationOptions = {
+  headerStyle: { backgroundColor: theme.colors.primary },
+  headerTitleStyle: { color: 'white' },
+}
