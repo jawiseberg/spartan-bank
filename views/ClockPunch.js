@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import EmployeeNav from '../components/EmployeeNav';
 
-const ClockPunch = () => {
+const ClockPunch = ({ currentPage, handlePageChange }) => {
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+    
 
   const handleClockInOut = () => {
     setIsClockedIn(!isClockedIn);
@@ -33,6 +35,9 @@ const ClockPunch = () => {
           {isClockedIn ? 'Clock Out' : 'Clock In'}
         </Text>
       </TouchableOpacity>
+      <View style={styles.navContainer}>
+        <EmployeeNav currentPage={currentPage} handlePageChange={handlePageChange} />
+      </View>
     </View>
   );
 };
@@ -63,7 +68,12 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#0A304E',
     borderRadius: 5,
-  }
+  },
+  navContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
 });
 
 export default ClockPunch;
