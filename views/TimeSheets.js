@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import EmployeeNav from '../components/EmployeeNav';
 
-const TimeSheets = () => {
+const TimeSheets = ({ currentPage, handlePageChange }) => {
   const dates = ['Monday 2/21', 'Tue 2/22', 'Wed 2/23', 'Thu 2/24', 'Fri 2/25', 'Sat 2/26', 'Sunday 2/27'];
   const data = [
     ['2/21', '9:00 AM', '5:00 PM', '8', 'Yes'],
@@ -14,9 +15,9 @@ const TimeSheets = () => {
     ['2/27', '', '', '', '']
   ];
 
-  
 
   return (
+    <View style={styles.container}>
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Time Sheets</Text>
@@ -41,6 +42,8 @@ const TimeSheets = () => {
     </DataTable>
     </View>
     </ScrollView>
+    <EmployeeNav currentPage={currentPage} handlePageChange={handlePageChange} />
+    </View>
   );
 };
 

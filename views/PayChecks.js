@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Modal } from 'react-native';
 import { DataTable } from 'react-native-paper';
+import EmployeeNav from '../components/EmployeeNav';
 
-const PayChecks = () => {
+const PayChecks = ({ currentPage, handlePageChange }) => {
   const data = [
     ['2/21', '$112.56', '$99.56','View'],
     ['2/28', '$112.56', '$99.56', 'View'],
@@ -20,6 +21,7 @@ const PayChecks = () => {
   };
 
   return (
+    <View style={styles.container}>
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Pay Statements</Text>
@@ -53,6 +55,9 @@ const PayChecks = () => {
         </View>
       </Modal>
     </ScrollView>
+    <EmployeeNav currentPage={currentPage} handlePageChange={handlePageChange} />
+    </View>
+    
   );
 };
 
