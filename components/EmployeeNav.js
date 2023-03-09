@@ -1,19 +1,18 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-export default function EmployeeNav(props) {
-  const { currentPage, handlePageChange } = props;
+export default function EmployeeNav({navigation}) {
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity onPress={() => handlePageChange('ClockPunch')}>
-        <Text style={[styles.headerButton, currentPage === 'ClockPunch' && styles.activeHeaderButton]}>Punch the Clock</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ClockPunch')}>
+        <Text style={[styles.headerButton]}>Punch the Clock</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePageChange('TimeSheets')}>
-        <Text style={[styles.headerButton, currentPage === 'TimeSheets' && styles.activeHeaderButton]}>View Timesheets</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('TimeSheets')}>
+        <Text style={[styles.headerButton]}>View Timesheets</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePageChange('PayChecks')}>
-        <Text style={[styles.headerButton, currentPage === 'PayChecks' && styles.activeHeaderButton]}>View Pay Statements</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('PayChecks')}>
+        <Text style={[styles.headerButton]}>View Pay Statements</Text>
       </TouchableOpacity>
     </View>
   );

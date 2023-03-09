@@ -14,6 +14,18 @@ const HomeView = ({ navigation }) => {
                 onPress={() => navigation.navigate('Account')}
             />
             <Button
+                title="Go to punch in/out"
+                onPress={() => navigation.navigate('ClockPunch')}
+            />
+            <Button
+                title="Go to time sheets"
+                onPress={() => navigation.navigate('TimeSheets')}
+            />
+            <Button
+                title="Go to paychecks"
+                onPress={() => navigation.navigate('PayChecks')}
+            />
+            <Button
                 title="Go to login"
                 onPress={() => navigation.navigate('Login')}
             />

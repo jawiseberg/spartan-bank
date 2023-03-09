@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Modal } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import EmployeeNav from '../components/EmployeeNav';
 
-const PayChecks = ({ currentPage, handlePageChange }) => {
+const PayChecks = ({ navigation }) => {
   const data = [
     ['2/21', '$112.56', '$99.56','View'],
     ['2/28', '$112.56', '$99.56', 'View'],
@@ -55,7 +55,6 @@ const PayChecks = ({ currentPage, handlePageChange }) => {
         </View>
       </Modal>
     </ScrollView>
-    <EmployeeNav currentPage={currentPage} handlePageChange={handlePageChange} />
     </View>
     
   );

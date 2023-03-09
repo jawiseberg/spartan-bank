@@ -20,7 +20,10 @@ const AccountView = ({ navigation }) => {
   };
 
   const handleAddCaseCashConfirm = () => {
-    if (transferAmount > checking) {
+    if (transferAmount === 0) {
+      return;
+    }
+    else if (transferAmount > checking) {
       alert('Error: Insufficient balance in checking account');
     } else {
       // Update state variables here based on user's selection
@@ -28,15 +31,16 @@ const AccountView = ({ navigation }) => {
       setChecking(checking - transferAmount);
       setCaseCash(caseCash + transferAmount);
       setTransactions([
-        ...transactions,
         {
           id: transactions.length + 1,
           date: new Date().toLocaleDateString(),
           description: "Transferred from Checking to Case Cash",
           amount: transferAmount,
         },
+        ...transactions,
       ]);
       alert(`Success: Added $${transferAmount} to Case Cash`);
+      setTransferAmount(0)
     }
   };
 

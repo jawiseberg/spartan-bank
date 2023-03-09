@@ -1,5 +1,5 @@
-//import React, { useState } from 'react';
-//import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -10,6 +10,10 @@ import RegisterView from './views/register';
 import ForgotPasswordView from './views/forgot_password';
 import { theme } from './core/theme'
 import AccountView from './views/account';
+import ClockPunch from './views/ClockPunch';
+import TimeSheets from './views/TimeSheets';
+import PayChecks from './views/PayChecks';
+import ProfileSettings from './views/ProfileSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,10 +34,13 @@ export default function App() {
             component={HomeView}
             options={{ title: 'Welcome' }}
           />
-          <Stack.Screen name="Profile" component={ProfileView} />
+          <Stack.Screen name="Profile" component={ProfileSettings} />
           <Stack.Screen name="Register" component={RegisterView} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordView} />
           <Stack.Screen name="Account" component={AccountView} />
+          <Stack.Screen name="ClockPunch" component={ClockPunch} />
+          <Stack.Screen name="PayChecks" component={PayChecks} />
+          <Stack.Screen name="TimeSheets" component={TimeSheets} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
