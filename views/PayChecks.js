@@ -55,6 +55,7 @@ const PayChecks = ({ navigation }) => {
         </View>
       </Modal>
     </ScrollView>
+    <EmployeeNav navigation={navigation}/>
     </View>
     
   );

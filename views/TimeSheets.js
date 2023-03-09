@@ -42,6 +42,7 @@ const TimeSheets = ({ navigation }) => {
     </DataTable>
     </View>
     </ScrollView>
+    <EmployeeNav navigation={navigation}/>
     </View>
   );
 };

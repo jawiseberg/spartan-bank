@@ -14,7 +14,7 @@ const ClockPunch = ({ navigation }) => {
 
   useEffect(() => {
     // Update current time every 3 seconds
-    const interval = setInterval(() => setCurrentTime(new Date()), 3000);
+    const interval = setInterval(() => setCurrentTime(new Date()), 1000);
 
     // Clear interval on unmount
     return () => clearInterval(interval);
@@ -36,6 +36,9 @@ const ClockPunch = ({ navigation }) => {
         </Text>
       </TouchableOpacity>
       <View style={styles.navContainer}>
+      </View>
+      <View style={styles.navContainer}>
+      <EmployeeNav navigation={navigation}/>
       </View>
     </View>
   );
