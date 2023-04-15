@@ -1,8 +1,7 @@
-//import React, { useState } from 'react';
-//import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import LoginView from './views/login';
 import ProfileView from './views/profile';
 import HomeView from './views/home';

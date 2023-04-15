@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import TextInput from '../components/TextInput';
 import Header from '../components/Header'
 import { theme } from '../core/theme'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const RegisterView = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -11,7 +12,20 @@ const RegisterView = ({ navigation }) => {
     const [email, setEmail] = useState('');
 
     const handleRegister = () => {
-        navigation.navigate('Home')
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                // ...
+                navigation.navigate('Home')
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+            });
+
     }
 
     return (
@@ -31,7 +45,7 @@ const RegisterView = ({ navigation }) => {
             <TextInput
                 placeholder="Email"
                 value={email}
-                onChangeText={setUsername}
+                onChangeText={setEmail}
             />
             <TextInput
                 placeholder="Password"

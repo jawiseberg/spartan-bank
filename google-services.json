@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "727185710857",
+    "project_id": "spartan-bank",
+    "storage_bucket": "spartan-bank.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727185710857:android:199392b48de2e7fccf3dd8",
+        "android_client_info": {
+          "package_name": "com.companyname.spartanbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727185710857-thq90jc18ka3f5j7gai9fqe6ot1bkdsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDQyVED_WrgE14Yltu3cpwUNh0qauovbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727185710857-thq90jc18ka3f5j7gai9fqe6ot1bkdsu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "727185710857-g2p4jjqpb31upsi2kvfppab5dh7lpc0o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.companyname.spartanbank"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
