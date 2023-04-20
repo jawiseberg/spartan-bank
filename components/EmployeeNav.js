@@ -1,39 +1,43 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { theme } from '../core/theme';
 
-export default function EmployeeNav(props) {
-  const { currentPage, handlePageChange } = props;
-
+export default function EmployeeNav({ navigation }) {
   return (
     <View style={styles.header}>
-      <TouchableOpacity onPress={() => handlePageChange('ClockPunch')}>
-        <Text style={[styles.headerButton, currentPage === 'ClockPunch' && styles.activeHeaderButton]}>Punch the Clock</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ClockPunch')}>
+        <Text style={[styles.headerButton]}>Punch the Clock</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePageChange('TimeSheets')}>
-        <Text style={[styles.headerButton, currentPage === 'TimeSheets' && styles.activeHeaderButton]}>View Timesheets</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('TimeSheets')}>
+        <Text style={[styles.headerButton]}>View Timesheets</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePageChange('PayChecks')}>
-        <Text style={[styles.headerButton, currentPage === 'PayChecks' && styles.activeHeaderButton]}>View Pay Statements</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('PayChecks')}>
+        <Text style={[styles.headerButton]}>View Pay Statements</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    header: {
       position: 'absolute',
-      bottom: 0,
-      left: 0,
+      position: 'absolute',
+      bottom: 10,
+      width: '100%',
+      alignSelf: 'center',
       flexDirection: 'column',
-      backgroundColor: '#eee',
+      backgroundColor: theme.colors.primary,
       paddingVertical: 5,
       paddingHorizontal: 10,
     },
     headerButton: {
       fontSize: 16,
       fontWeight: 'bold',
-      color: '#333',
+      color: 'white',
+      textAlign: 'center',
       marginVertical: 5,
+      borderWidth: 1,
+      borderColor: 'white',
     },
     activeHeaderButton: {
       color: 'blue',
