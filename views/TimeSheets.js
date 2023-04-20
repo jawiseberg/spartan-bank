@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import EmployeeNav from '../components/EmployeeNav';
+import { theme } from '../core/theme';
 
 const TimeSheets = ({ navigation }) => {
   const dates = ['Monday 2/21', 'Tue 2/22', 'Wed 2/23', 'Thu 2/24', 'Fri 2/25', 'Sat 2/26', 'Sunday 2/27'];
@@ -81,11 +82,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
+    color: theme.colors.primary,
   },
   subTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#888',
+    color: theme.colors.secondary,
   },
   cell: {
     width: '20%',
