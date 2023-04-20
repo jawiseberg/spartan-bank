@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
 import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image } from 'react-native';
-=======
->>>>>>> b0d271eb3c0f7227e54685e498e44aaf4a020618
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider as PaperProvider } from 'react-native-paper';
