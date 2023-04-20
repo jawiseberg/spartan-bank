@@ -12,46 +12,64 @@ const TimeSheets = ({ navigation }) => {
     ['2/24', '10:00 AM', '6:00 PM', '8', 'No'],
     ['2/25', '9:30 AM', '4:30 PM', '7', 'No'],
     ['2/26', '9:30 AM', '', '', ''],
-    ['2/27', '', '', '', '']
+    ['2/27', '', '', '', ''],
+    ['2/27', '', '', '', ''],
+    ['2/27', '', '', '', ''],
+    ['2/27', '', '', '', ''],
+    ['2/27', '', '', '', ''],
+    ['2/27', '', '', '', ''],
+    ['2/27', '', '', '', ''],
+    ['2/27', '', '', '', ''],
+
+
   ];
 
-
   return (
-    <View style={styles.container}>
-    <ScrollView style={styles.container}>
+    <View style={styles.parent}>
+    <ScrollView style={styles.scrollView}>
       <View style={styles.header}>
         <Text style={styles.title}>Time Sheets</Text>
         <Text style={styles.subTitle}>{dates[0]} - {dates[6]}</Text>
       </View>
       <View style={styles.tableContainer}>
-      <DataTable style={styles.table}>
-      <DataTable.Header style={styles.tableHeader}>
-        <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Date</Text></DataTable.Title>
-        <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Time In</Text></DataTable.Title>
-        <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Time Out</Text></DataTable.Title>
-        <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Total</Text></DataTable.Title>
-        <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Approved</Text></DataTable.Title>
-      </DataTable.Header>
-      {data.map((row, index) => (
-        <DataTable.Row key={index}>
-          {row.map((cell, cellIndex) => (
-            <DataTable.Cell key={cellIndex} style={styles.cell}>{cell}</DataTable.Cell>
-          ))}
-        </DataTable.Row>
-      ))}
-    </DataTable>
-    </View>
+        <DataTable style={styles.table}>
+        <DataTable.Header style={styles.tableHeader}>
+          <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Date</Text></DataTable.Title>
+          <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Time In</Text></DataTable.Title>
+          <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Time Out</Text></DataTable.Title>
+          <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Total</Text></DataTable.Title>
+          <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Approved</Text></DataTable.Title>
+        </DataTable.Header>
+        {data.map((row, index) => (
+          <DataTable.Row key={index}>
+            {row.map((cell, cellIndex) => (
+              <DataTable.Cell key={cellIndex} style={styles.cell}>{cell}</DataTable.Cell>
+            ))}
+          </DataTable.Row>
+        ))}
+        </DataTable>
+      </View>
     </ScrollView>
-    <EmployeeNav navigation={navigation}/>
+    <View style={styles.navContainer}>
+      <EmployeeNav navigation={navigation}/>
+    </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  parent: {
     flex: 1,
-    backgroundColor: '#f1f8ff',
-    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrollView: {
+    width: '100%',
+    height: '50%',
+  },
+  navContainer: {
+    width: '90%',
+    height: '20%',
   },
   header: {
     marginTop: 30,
@@ -68,10 +86,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#888',
-  },
-  tableContainer:{
-    width: "100%",
-    height: "70%",
   },
   cell: {
     width: '20%',

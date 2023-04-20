@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { theme } from '../core/theme';
 
 export default function EmployeeNav({ navigation }) {
   return (
@@ -18,20 +19,25 @@ export default function EmployeeNav({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    header: {
       position: 'absolute',
-      bottom: 0,
-      left: 0,
+      position: 'absolute',
+      bottom: 10,
+      width: '100%',
+      alignSelf: 'center',
       flexDirection: 'column',
-      backgroundColor: '#eee',
+      backgroundColor: theme.colors.primary,
       paddingVertical: 5,
       paddingHorizontal: 10,
     },
     headerButton: {
       fontSize: 16,
       fontWeight: 'bold',
-      color: '#333',
+      color: 'white',
+      textAlign: 'center',
       marginVertical: 5,
+      borderWidth: 1,
+      borderColor: 'white',
     },
     activeHeaderButton: {
       color: 'blue',
