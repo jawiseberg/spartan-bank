@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import EmployeeNav from '../components/EmployeeNav';
+import { theme } from '../core/theme';
 
-const ClockPunch = ({ currentPage, handlePageChange }) => {
+const ClockPunch = ({ navigation }) => {
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
     
@@ -14,7 +15,7 @@ const ClockPunch = ({ currentPage, handlePageChange }) => {
 
   useEffect(() => {
     // Update current time every 3 seconds
-    const interval = setInterval(() => setCurrentTime(new Date()), 3000);
+    const interval = setInterval(() => setCurrentTime(new Date()), 1000);
 
     // Clear interval on unmount
     return () => clearInterval(interval);
@@ -31,12 +32,12 @@ const ClockPunch = ({ currentPage, handlePageChange }) => {
         style={styles.buttonStyle}
         onPress={handleClockInOut}
       >
-        <Text style={{fontSize: 24, color: 'white'}}>
-          {isClockedIn ? 'Clock Out' : 'Clock In'}
-        </Text>
+          <Text style={{fontSize: 24, color: 'white'}}>
+            {isClockedIn ? 'Clock Out' : 'Clock In'}
+          </Text>
       </TouchableOpacity>
       <View style={styles.navContainer}>
-        <EmployeeNav currentPage={currentPage} handlePageChange={handlePageChange} />
+      <EmployeeNav navigation={navigation}/>
       </View>
     </View>
   );
@@ -44,35 +45,35 @@ const ClockPunch = ({ currentPage, handlePageChange }) => {
 
 const styles = StyleSheet.create({
   titleText:{
-    fontSize: 64, 
+    fontSize: 50, 
     marginBottom: 20 ,
-    borderColor: '#0A304E', 
     borderWidth: 2,
     paddingHorizontal: 30, 
     paddingVertical: 10, 
+    width: '90%',
+    height: '30%',
+    textAlignVertical: 'center',
+    fontWeight: 'bold',
     textAlign: 'center',
-    backgroundColor: '#0A304E'
+    backgroundColor: theme.colors.primary
   },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'gray',
     paddingHorizontal: 20,
     paddingVertical: 30,
-    borderWidth: 5,
-    borderColor: 'navy',
     borderRadius: 10,
   },
   buttonStyle:{
     padding: 10,
-    backgroundColor: '#0A304E',
+    backgroundColor: theme.colors.primary,
     borderRadius: 5,
   },
   navContainer: {
     position: 'absolute',
     bottom: 0,
-    left: 0,
+    width: '80%',
   },
 });
 
