@@ -1,32 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import Button from '../components/Button'
 import TextInput from '../components/TextInput';
 import Header from '../components/Header'
 import { theme } from '../core/theme'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { auth } from '../firebase';
 
 const RegisterView = ({ navigation }) => {
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            if(user != null) {
+                navigation.navigate('Home')
+            }
+        });
+        return unsubscribe
+    }, [])
+
     const handleRegister = () => {
-        const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                // ...
-                navigation.navigate('Home')
+                
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
+                handleSignUpError(error);
+                
             });
 
     }
+
+    function handleSignUpError(error) {
+        let title = 'Sign Up Error';
+        let errorMessage = error.code;
+      
+        switch (error.code) {
+          case 'auth/invalid-email':
+            errorMessage = 'Please enter a valid email address.';
+            break;
+          case 'auth/email-already-in-use':
+            errorMessage = 'The email address is already in use by another account.';
+            break;
+          case 'auth/operation-not-allowed':
+            errorMessage = 'Email/password accounts are not enabled. Please contact support.';
+            break;
+          case 'auth/weak-password':
+            errorMessage = 'Your password is too weak. Please choose a stronger password.';
+            break;
+          default:
+            console.error('Sign Up Error:', error);
+        }
+      
+        Alert.alert(title, errorMessage);
+      }
 
     return (
         <View style={styles.container}>
@@ -37,11 +67,6 @@ const RegisterView = ({ navigation }) => {
             <Header>
                 Create Account
             </Header>
-            <TextInput
-                placeholder="Username"
-                value={username}
-                onChangeText={setUsername}
-            />
             <TextInput
                 placeholder="Email"
                 value={email}

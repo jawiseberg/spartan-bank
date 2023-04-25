@@ -1,17 +1,73 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import Button from '../components/Button'
 import TextInput from '../components/TextInput';
 import Header from '../components/Header'
 import { theme } from '../core/theme'
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { auth } from '../firebase';
 
 const LoginView = ({ navigation }) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            if(user != null) {
+                navigation.navigate('Home')
+            }
+        });
+        return unsubscribe
+    }, [])
+
     const handleLogin = () => {
-        navigation.navigate('Home')
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                handleLoginError(error);
+            });
+
     }
+
+    function handleLoginError(error) {
+        let title = 'Login Error';
+        let errorMessage = error.code;
+      
+        switch (error.code) {
+          case 'auth/invalid-email':
+            errorMessage = 'Please enter a valid email address.';
+            break;
+        case "auth/missing-password":
+            errorMessage = "Please enter a password.";
+            break;
+          case 'auth/user-disabled':
+            errorMessage = 'Your account has been disabled. Please contact support.';
+            break;
+          case 'auth/user-not-found':
+            errorMessage = 'No account found with the provided email.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password. Please try again.';
+            break;
+          case 'auth/too-many-requests':
+            errorMessage = 'Too many failed login attempts. Please wait and try again later.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'A network error occurred. Please check your connection and try again.';
+            break;
+          default:
+            console.error('Login Error:', error);
+        }
+      
+        Alert.alert(title, errorMessage);
+      }
+      
 
     return (
         <View style={styles.container}>
@@ -23,9 +79,9 @@ const LoginView = ({ navigation }) => {
                 Spartan Bank
             </Header>
             <TextInput
-                placeholder="Username/Email"
-                value={username}
-                onChangeText={setUsername}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
             />
             <TextInput
                 placeholder="Password"
@@ -88,3 +144,4 @@ const styles = StyleSheet.create({
 });
 
 export default LoginView;
+//export const user;

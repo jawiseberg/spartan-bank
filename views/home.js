@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { auth } from '../firebase';
 
 const HomeView = ({ navigation }) => {
+
+    const handleSignOut = () => {
+        auth.signOut()
+        .then(() => {
+            navigation.replace("Login")
+        }).catch(error => alert(error.message))
+    }
+
     return (
         <View>
             <Text>Welcome to the home view</Text>
@@ -14,8 +23,12 @@ const HomeView = ({ navigation }) => {
                 onPress={() => navigation.navigate('Account')}
             />
             <Button
-                title="Go to login"
-                onPress={() => navigation.navigate('Login')}
+                title="Go to timesheet"
+                onPress={() => navigation.navigate('TimeSheets')}
+            />
+            <Button
+                title="Sign out"
+                onPress={handleSignOut}
             />
         </View>
     );

@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import EmployeeNav from '../components/EmployeeNav';
 
+
 const TimeSheets = ({ currentPage, handlePageChange }) => {
-  const dates = ['Monday 2/21', 'Tue 2/22', 'Wed 2/23', 'Thu 2/24', 'Fri 2/25', 'Sat 2/26', 'Sunday 2/27'];
   const data = [
     ['2/21', '9:00 AM', '5:00 PM', '8', 'Yes'],
     ['2/22', '8:30 AM', '5:30 PM', '9', 'Yes'],
@@ -15,6 +15,29 @@ const TimeSheets = ({ currentPage, handlePageChange }) => {
     ['2/27', '', '', '', '']
   ];
 
+  function getWeekDates() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const startOfWeek = new Date(today.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)));
+    
+    const weekDates = [];
+    const dayNames = ['Monday', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sunday'];
+  
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(startOfWeek);
+      date.setDate(startOfWeek.getDate() + i);
+      
+      const dayName = dayNames[i];
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+  
+      weekDates.push(`${dayName} ${month}/${day}`);
+    }
+  
+    return weekDates;
+  }
+
+  const dates = getWeekDates();
 
   return (
     <View style={styles.container}>

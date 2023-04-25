@@ -9,6 +9,9 @@ import RegisterView from './views/register';
 import ForgotPasswordView from './views/forgot_password';
 import { theme } from './core/theme'
 import AccountView from './views/account';
+import TimeSheetsView from './views/TimeSheets'
+import ClockPunchView from './views/ClockPunch'
+import PayChecksView from './views/PayChecks'
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +36,9 @@ export default function App() {
           <Stack.Screen name="Register" component={RegisterView} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordView} />
           <Stack.Screen name="Account" component={AccountView} />
+          <Stack.Screen name="TimeSheets" component={TimeSheetsView} />
+          <Stack.Screen name="PayChecks" component={PayChecksView} />
+          <Stack.Screen name="ClockPunch" component={ClockPunchView} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
