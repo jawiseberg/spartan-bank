@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import Button from '../components/Button'
 import TextInput from '../components/TextInput';
 import Header from '../components/Header'
 import { theme } from '../core/theme'
 import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
 const RegisterView = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
-    useEffect(() => {
+    /*useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
             if(user != null) {
                 navigation.navigate('Home')
             }
         });
         return unsubscribe
-    }, [])
+    }, [])*/
 
     const handleRegister = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                
+                firebase.firestore().collection("BankAccount").doc(user.uid).set({balance: 0});
+                firebase.firestore().collection("CaseCashSwipes").doc(user.uid).set({Casecash: 0, Mealswipes: 0, Portableswipes: 0});
+                navigation.navigate("Home");
             })
             .catch((error) => {
                 handleSignUpError(error);

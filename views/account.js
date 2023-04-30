@@ -82,16 +82,6 @@ const AccountView = ({ navigation }) => {
         amount: transferAmount,
       });
       setIsModalVisible(false);
-      /*setTransactions([
-        {
-          id: uuid.v4(),
-          date: new Date().toLocaleDateString(),
-          description: "Transferred from Checking to Case Cash",
-          amount: transferAmount,
-          userId: firebase.auth().currentUser.uid,
-        },
-        ...transactions,
-      ]);*/
       Alert.alert("Success!", `Success: Added $${transferAmount} to Case Cash`);
       setTransferAmount(0)
     }
