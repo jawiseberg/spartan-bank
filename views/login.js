@@ -1,39 +1,33 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import Button from '../components/Button'
 import TextInput from '../components/TextInput';
 import Header from '../components/Header'
 import { theme } from '../core/theme'
+import auth from '@react-native-firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from '../firebase';
 
-const LoginView = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, user => {
-            if(user != null) {
-                navigation.navigate('Home')
-            }
-        });
-        return unsubscribe
-    }, [])
+const LoginView = ({ navigation, app }) => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');;
 
     const handleLogin = () => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                handleLoginError(error);
-            });
-
-    }
+        firebase.auth().signInWithEmailAndPassword(username, password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log('User logged in:', user);
+            navigation.navigate('Home')
+          })
+          .catch((error) => {
+            const errorMessage = error.message;
+            Alert.alert("Error", "The email or password is invalid.")
+            console.log('Login error:', errorMessage);
+          });
+      };
 
     function handleLoginError(error) {
         let title = 'Login Error';
@@ -80,8 +74,8 @@ const LoginView = ({ navigation }) => {
             </Header>
             <TextInput
                 placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
+                value={username}
+                onChangeText={setUsername}
             />
             <TextInput
                 placeholder="Password"
