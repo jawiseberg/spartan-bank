@@ -25,7 +25,7 @@ const HomeView = ({ navigation }) => {
           <Text style={styles.buttonText}>Student{'\n'}Employment</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
       </View>
     </View>
