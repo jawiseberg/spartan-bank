@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TextInput, Button, Switch, List, Divider } from 'react-native-paper';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 const ProfileSettings = () => {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [notification, setNotification] = useState(false);
+  const [notifications, setNotifications] = useState(false);
+  const notificationsDbRef = firebase.firestore().collection("Settings").doc(firebase.auth().currentUser.uid)
+
+  useEffect(() => {
+    setEmail(firebase.auth().currentUser.email);
+    notificationsDbRef.get().then((doc) => {
+      if (doc.exists) {
+        setNotifications(doc.data().notifications);
+      } else {
+        console.log('No such document!');
+      }
+    }).catch((error) => {
+      console.log('Error getting document:', error);
+    });
+  }, []);
 
   const handleSave = () => {
-    // Handle saving the user's profile settings
+    notificationsDbRef.update({notifications: notifications})
   };
 
   return (
@@ -17,22 +32,9 @@ const ProfileSettings = () => {
       <List.Section>
         <List.Subheader>Profile</List.Subheader>
         <TextInput
-          label="Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
-          style={styles.input}
-        />
-        <TextInput
           label="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          label="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => setPassword(text)}
           style={styles.input}
         />
       </List.Section>
@@ -43,8 +45,8 @@ const ProfileSettings = () => {
           title="Push Notifications"
           right={() => (
             <Switch
-              value={notification}
-              onValueChange={(value) => setNotification(value)}
+              value={notifications}
+              onValueChange={(value) => setNotifications(value)}
             />
           )}
         />
