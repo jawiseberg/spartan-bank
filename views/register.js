@@ -13,15 +13,6 @@ const RegisterView = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
-    /*useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, user => {
-            if(user != null) {
-                navigation.navigate('Home')
-            }
-        });
-        return unsubscribe
-    }, [])*/
-
     const handleRegister = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -29,6 +20,7 @@ const RegisterView = ({ navigation }) => {
                 const user = userCredential.user;
                 firebase.firestore().collection("BankAccount").doc(user.uid).set({balance: 0});
                 firebase.firestore().collection("CaseCashSwipes").doc(user.uid).set({Casecash: 0, Mealswipes: 0, Portableswipes: 0});
+                firebase.firestore().collection("Settings").doc(user.uid).set({notifications: true});
                 navigation.navigate("Home");
             })
             .catch((error) => {
