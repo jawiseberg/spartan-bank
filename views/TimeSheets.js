@@ -74,7 +74,7 @@ const TimeSheets = ({ navigation }) => {
         };
     const intervalId = setInterval(() => {
       fetchData();
-    }, 10000); // 10 seconds
+    }, 1000); // 10 seconds
   
     return () => clearInterval(intervalId); // cleanup function to clear interval on unmount
   }, []);
