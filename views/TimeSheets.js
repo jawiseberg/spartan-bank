@@ -3,49 +3,83 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import EmployeeNav from '../components/EmployeeNav';
 import { theme } from '../core/theme';
+import uuid from 'react-native-uuid';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
-const TimeSheets = ({ navigation }) => {
-  const data = [
-    ['2/21', '9:00 AM', '5:00 PM', '8', 'Yes'],
-    ['2/22', '8:30 AM', '5:30 PM', '9', 'Yes'],
-    ['2/23', '9:15 AM', '4:45 PM', '7.5', 'Yes'],
-    ['2/24', '10:00 AM', '6:00 PM', '8', 'No'],
-    ['2/25', '9:30 AM', '4:30 PM', '7', 'No'],
-    ['2/26', '9:30 AM', '', '', ''],
-    ['2/27', '', '', '', ''],
-    ['2/27', '', '', '', ''],
-    ['2/27', '', '', '', ''],
-    ['2/27', '', '', '', ''],
-    ['2/27', '', '', '', ''],
-    ['2/27', '', '', '', ''],
-    ['2/27', '', '', '', ''],
-    ['2/27', '', '', '', ''],
+const getWeekDates = () => {
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const startOfWeek = new Date(today.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)));
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(endOfWeek.getDate() + 6);
+  const weekDates = [];
+  const dayNames = ['Monday', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sunday'];
 
-
-  ];
-  function getWeekDates() {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const startOfWeek = new Date(today.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)));
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(startOfWeek);
+    date.setDate(startOfWeek.getDate() + i);
     
-    const weekDates = [];
-    const dayNames = ['Monday', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sunday'];
-  
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(startOfWeek);
-      date.setDate(startOfWeek.getDate() + i);
-      
-      const dayName = dayNames[i];
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-  
-      weekDates.push(`${dayName} ${month}/${day}`);
-    }
-  
-    return weekDates;
+    const dayName = dayNames[i];
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    weekDates.push(`${dayName} ${month}/${day}`);
   }
 
-  const dates = getWeekDates();
+  return {startDate: startOfWeek, endDate: endOfWeek, dates: weekDates};
+};
+
+const TimeSheets = ({ navigation }) => {
+  const userId = firebase.auth().currentUser.uid;
+  const db = firebase.firestore();
+  const timeSheetsRef = db.collection('Timesheets').doc(userId);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null)
+  const [data, setData] = useState([]);
+
+  
+  useEffect(() => {
+    const { startDate, endDate } = getWeekDates();
+    setStartDate(startDate);
+    setEndDate(endDate);
+  }, []);
+
+  useEffect(() => {
+      const fetchData = async () => {
+      const timeSheetData = await timeSheetsRef.collection("entries").orderBy("end","asc").get();
+      const timeSheetEntries = timeSheetData.docs.map(doc => {
+        const data = doc.data();
+        const inDate = new Date(data.start);
+        const outDate = new Date(data.end);
+        const startFormatted = `${inDate.getMonth() + 1}/${inDate.getDate()}`;
+        const startHourFormatted = `${inDate.getHours()}:${inDate.getMinutes().toString().padStart(2, '0')}`;
+        const endHourFormatted = `${outDate.getHours()}:${outDate.getMinutes().toString().padStart(2, '0')}`;
+        const numHours = data.numhours;
+        const approved = data.approved ? "Yes" : "No";
+        return [startFormatted, startHourFormatted, endHourFormatted, numHours, approved];
+      }).filter(entry => {
+        const dateStr = entry[0]
+        const parts = dateStr.split('/');
+        const month = parseInt(parts[0], 10) - 1; // JavaScript months are zero-based
+        const day = parseInt(parts[1], 10);
+        const date = new Date();
+        date.setMonth(month);
+        date.setDate(day);
+        date.setFullYear(new Date().getFullYear()); // Set the year to the current year        const inDate = new Date(`${entry[0]}`);
+        return date >= startDate && date <= endDate;
+      });      
+      setData(timeSheetEntries);
+        };
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 10000); // 10 seconds
+  
+    return () => clearInterval(intervalId); // cleanup function to clear interval on unmount
+  }, []);
+  
+  const { dates } = getWeekDates();
 
   return (
     <View style={styles.parent}>
