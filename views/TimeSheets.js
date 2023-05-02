@@ -37,7 +37,7 @@ const TimeSheets = ({ navigation }) => {
   const timeSheetsRef = db.collection('Timesheets').doc(userId);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null)
-  const [data, setData] = useState([]);
+  const [tableData, setData] = useState([]);
 
   
   useEffect(() => {
@@ -77,7 +77,7 @@ const TimeSheets = ({ navigation }) => {
     }, 1000); // 10 seconds
   
     return () => clearInterval(intervalId); // cleanup function to clear interval on unmount
-  }, [data]);
+  }, [tableData]);
   
   const { dates } = getWeekDates();
 
@@ -97,7 +97,7 @@ const TimeSheets = ({ navigation }) => {
           <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Total</Text></DataTable.Title>
           <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Approved</Text></DataTable.Title>
         </DataTable.Header>
-        {data.map((row, index) => (
+        {tableData.map((row, index) => (
           <DataTable.Row key={index}>
             {row.map((cell, cellIndex) => (
               <DataTable.Cell key={cellIndex} style={styles.cell}>{cell}</DataTable.Cell>

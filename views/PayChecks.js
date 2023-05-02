@@ -8,7 +8,7 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const PayChecks = ({ navigation }) => {
-  const [data, setData] = useState([]);
+  const [tableData, setData] = useState([]);
   const userId = firebase.auth().currentUser.uid;
   const db = firebase.firestore();
   const payCheckRef = db.collection('PayStatements').doc(userId);
@@ -31,7 +31,7 @@ const PayChecks = ({ navigation }) => {
   }, 1000); // 1 seconds
 
   return () => clearInterval(intervalId); // cleanup function to clear interval on unmount
-}, []);
+}, [tableData]);
 
   return (
     <View style={styles.parent}>
@@ -46,7 +46,7 @@ const PayChecks = ({ navigation }) => {
             <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Gross</Text></DataTable.Title>
             <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Net</Text></DataTable.Title>
           </DataTable.Header>
-          {data.map((row, index) => (
+          {tableData.map((row, index) => (
             <DataTable.Row key={index}>
               {row.map((cell, cellIndex) => (
                 <DataTable.Cell key={cellIndex} style={styles.cell}>{cell}</DataTable.Cell>
