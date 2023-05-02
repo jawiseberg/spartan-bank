@@ -1,25 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Modal } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import EmployeeNav from '../components/EmployeeNav';
 import { theme } from '../core/theme';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 const PayChecks = ({ navigation }) => {
-  const data = [
-    ['2/21', '$112.56', '$99.56','View'],
-    ['2/28', '$112.56', '$99.56', 'View'],
-    ['3/5', '$112.56', '$99.56',  'View'],
-    ['2/12', '$112.56', '$99.56', 'View'],
-  ];
+  const [data, setData] = useState([]);
+  const userId = firebase.auth().currentUser.uid;
+  const db = firebase.firestore();
+  const payCheckRef = db.collection('PayStatements').doc(userId);
 
-  const [selectedPaystub, setSelectedPaystub] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+    const payCheckData = await payCheckRef.collection("entries").orderBy("Date","asc").get();
+    const payCheckEntries = payCheckData.docs.map(doc => {
+      const data = doc.data();
+      const date = data.Date.toDate();
+      const startFormatted = `${date.getMonth() + 1}/${date.getDate()}`;
+      const gross = "$" + data.GrossPay.toFixed(2)
+      const net = "$" + data.NetPay.toFixed(2)
+      return [startFormatted, gross, net];
+    });      
+    setData(payCheckEntries);
+      };
+  const intervalId = setInterval(() => {
+    fetchData();
+  }, 1000); // 1 seconds
 
-  const handlePaystubPress = (index) => {
-    setSelectedPaystub(data[index]);
-  }
-  const handleClosePaystub = () => {
-    setSelectedPaystub(null);
-  };
+  return () => clearInterval(intervalId); // cleanup function to clear interval on unmount
+}, []);
 
   return (
     <View style={styles.parent}>
@@ -33,28 +45,16 @@ const PayChecks = ({ navigation }) => {
             <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Pay Date</Text></DataTable.Title>
             <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Gross</Text></DataTable.Title>
             <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Net</Text></DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}><Text style={styles.headerText}>Paystub</Text></DataTable.Title>
           </DataTable.Header>
           {data.map((row, index) => (
             <DataTable.Row key={index}>
               {row.map((cell, cellIndex) => (
-                <DataTable.Cell key={cellIndex} style={styles.cell} onPress={
-                  cellIndex === 3 ? () => handlePaystubPress(index) : null
-                }>{cell}</DataTable.Cell>
+                <DataTable.Cell key={cellIndex} style={styles.cell}>{cell}</DataTable.Cell>
               ))}
             </DataTable.Row>
           ))}
         </DataTable>
     </View>
-    <Modal
-        visible={selectedPaystub !== null}
-        animationType="slide"
-        onRequestClose={handleClosePaystub}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Paystub for {selectedPaystub == null ? "null" : selectedPaystub[0]}</Text>
-          {/* Display the paystub content here */}
-        </View>
-      </Modal>
     </ScrollView>
     <View style={styles.navContainer}>
       <EmployeeNav navigation={navigation}/>

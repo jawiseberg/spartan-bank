@@ -77,7 +77,7 @@ const TimeSheets = ({ navigation }) => {
     }, 1000); // 10 seconds
   
     return () => clearInterval(intervalId); // cleanup function to clear interval on unmount
-  }, []);
+  }, [data]);
   
   const { dates } = getWeekDates();
 
