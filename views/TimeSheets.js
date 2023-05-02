@@ -48,7 +48,7 @@ const TimeSheets = ({ navigation }) => {
 
   useEffect(() => {
       const fetchData = async () => {
-      const timeSheetData = await timeSheetsRef.collection("entries").orderBy("end","asc").get();
+      const timeSheetData = await timeSheetsRef.collection("entries").orderBy("end","asc").where("end", "!=", null).get();
       const timeSheetEntries = timeSheetData.docs.map(doc => {
         const data = doc.data();
         const inDate = new Date(data.start);

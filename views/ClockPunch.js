@@ -22,6 +22,12 @@ const ClockPunch = ({ navigation }) => {
     if (!isClockedIn) {
       setStartTime(new Date());
       setIsClockedIn(true);
+      timeSheetsRef.collection("entries").add({
+        approved: false,
+        end: null,
+        start: new Date().toISOString(),
+        numhours: null,
+      });
     } else {
       setEndTime(new Date());
       setIsClockedIn(false);
@@ -33,7 +39,15 @@ const ClockPunch = ({ navigation }) => {
   useEffect(() => {
     // Update current time every 1 seconds
     const interval = setInterval(() => setCurrentTime(new Date()), 1000);
-
+    timeSheetsRef.collection("entries")
+      .where("end", "==", null)
+      .get()
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          setIsClockedIn(true);
+          setStartTime(new Date(querySnapshot.docs[0].data().start))
+        }
+      })
     // Clear interval on unmount
     return () => clearInterval(interval);
   }, []);
